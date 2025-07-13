@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
-  subsets: ["latin"],
   variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "VibeToApp - Transform Ideas into Concrete Plans",
-  description: "Stop jumping into development without a plan. Our AI-powered 9-step methodology guides you from rough concepts to detailed, actionable project specifications.",
-  keywords: "app development, AI planning, project specifications, startup planning",
-  authors: [{ name: "VibeToApp" }],
-  viewport: "width=device-width, initial-scale=1",
+  title: "VibeToApp - Transform Your App Ideas Into Reality",
+  description: "AI-powered 9-step workflow to turn your app ideas into detailed specifications ready for development.",
 };
 
 export default function RootLayout({
@@ -21,8 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} font-sans antialiased`}>
+    <html lang="en">
+      <body
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
+      >
         {children}
       </body>
     </html>

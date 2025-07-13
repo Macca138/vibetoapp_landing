@@ -9,8 +9,7 @@ export default function Header() {
 
   return (
     <header className="absolute inset-x-0 top-0 z-50">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        {/* Logo */}
+      <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <m.span 
@@ -24,11 +23,10 @@ export default function Header() {
           </Link>
         </div>
         
-        {/* Mobile menu button */}
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white hover:text-purple-400 transition-colors"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <span className="sr-only">Open main menu</span>
@@ -38,33 +36,22 @@ export default function Header() {
           </button>
         </div>
         
-        {/* Desktop navigation */}
         <div className="hidden lg:flex lg:gap-x-12">
           <m.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
-            <Link 
-              href="#features" 
-              className="text-sm font-semibold leading-6 text-white hover:text-purple-400 transition-colors duration-200"
-            >
+            <Link href="#features" className="text-sm font-semibold leading-6 text-white hover:text-purple-400 transition-colors duration-200">
               Features
             </Link>
           </m.div>
           <m.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
-            <Link 
-              href="#about" 
-              className="text-sm font-semibold leading-6 text-white hover:text-purple-400 transition-colors duration-200"
-            >
+            <Link href="#" className="text-sm font-semibold leading-6 text-white hover:text-purple-400 transition-colors duration-200">
               About
             </Link>
           </m.div>
         </div>
         
-        {/* CTA Button */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.2 }}>
-            <Link 
-              href="#waitlist" 
-              className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200"
-            >
+          <m.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+            <Link href="#waitlist" className="text-sm font-semibold leading-6 text-white hover:text-purple-400 transition-colors duration-200">
               Join Waitlist
             </Link>
           </m.div>
@@ -74,15 +61,15 @@ export default function Header() {
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden">
-          <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-slate-900/95 backdrop-blur px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
+          <div className="fixed inset-0 z-50" />
+          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5">
-                <span className="text-2xl font-bold text-white">VibeToApp</span>
+                <span className="text-2xl font-bold text-indigo-600">VibeToApp</span>
               </Link>
               <button
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-white hover:text-purple-400 transition-colors"
+                className="-m-2.5 rounded-md p-2.5 text-gray-700"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
@@ -92,18 +79,18 @@ export default function Header() {
               </button>
             </div>
             <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-white/10">
+              <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   <Link
                     href="#features"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-white/5 transition-colors"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Features
                   </Link>
                   <Link
-                    href="#about"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-white/5 transition-colors"
+                    href="#"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     About
                   </Link>
@@ -111,7 +98,7 @@ export default function Header() {
                 <div className="py-6">
                   <Link
                     href="#waitlist"
-                    className="-mx-3 block rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-2.5 text-base font-semibold leading-7 text-white text-center hover:from-purple-600 hover:to-pink-600 transition-all"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Join Waitlist
