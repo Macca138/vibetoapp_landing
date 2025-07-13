@@ -163,7 +163,7 @@ export default function WaitlistForm({ source = 'landing' }: WaitlistFormProps) 
           />
           <span className="leading-relaxed">
             I agree to VibeToApp collecting and processing my email address for waitlist notifications and early access communications. 
-            <a href="#privacy" className="text-purple-400 hover:text-purple-300 underline ml-1">
+            <a href="/privacy" className="text-purple-400 hover:text-purple-300 underline ml-1" target="_blank" rel="noopener">
               View Privacy Policy
             </a>
           </span>

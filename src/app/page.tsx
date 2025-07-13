@@ -2,7 +2,6 @@ import Header from '@/components/landing/Header';
 import Hero from '@/components/landing/Hero';
 import Features from '@/components/landing/Features';
 import CTA from '@/components/landing/CTA';
-import PrivacyPolicy from '@/components/landing/PrivacyPolicy';
 import Footer from '@/components/landing/Footer';
 
 export default function Home() {
@@ -13,7 +12,6 @@ export default function Home() {
         <Hero />
         <Features />
         <CTA />
-        <PrivacyPolicy />
       </main>
       <Footer />
     </div>

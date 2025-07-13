@@ -11,7 +11,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center space-x-6 text-xs text-gray-500">
             <p>© 2025 VibeToApp. All rights reserved.</p>
-            <a href="#privacy" className="hover:text-gray-300 transition-colors">
+            <a href="/privacy" className="hover:text-gray-300 transition-colors">
               Privacy Policy
             </a>
             <a href="mailto:privacy@vibetoapp.com" className="hover:text-gray-300 transition-colors">
