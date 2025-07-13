@@ -7,7 +7,7 @@ import { fadeInUp, fadeIn, containerVariants } from '@/lib/animations';
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32">
+    <section className="relative overflow-hidden pt-32 pb-24 sm:pt-40 sm:pb-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         
         {/* Hero Image - Developer coding with inspiration */}
@@ -17,7 +17,7 @@ export default function Hero() {
           initial="initial"
           animate="animate"
         >
-          <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-500/20">
+          <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-500/20 shadow-2xl">
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center">
                 <div className="text-6xl md:text-8xl mb-4">💻✨</div>
@@ -30,16 +30,16 @@ export default function Hero() {
               </div>
             </div>
             {/* Floating code elements */}
-            <div className="absolute top-4 left-4 bg-slate-800/60 backdrop-blur rounded-md px-3 py-1 text-xs text-green-400 font-mono">
+            <div className="absolute top-4 left-4 bg-slate-800/80 backdrop-blur rounded-md px-3 py-1 text-xs text-green-400 font-mono border border-green-400/20">
               &gt; npm create app
             </div>
-            <div className="absolute top-4 right-4 bg-slate-800/60 backdrop-blur rounded-md px-3 py-1 text-xs text-blue-400 font-mono">
+            <div className="absolute top-4 right-4 bg-slate-800/80 backdrop-blur rounded-md px-3 py-1 text-xs text-blue-400 font-mono border border-blue-400/20">
               &lt;App /&gt;
             </div>
-            <div className="absolute bottom-4 left-4 bg-slate-800/60 backdrop-blur rounded-md px-3 py-1 text-xs text-yellow-400 font-mono">
+            <div className="absolute bottom-4 left-4 bg-slate-800/80 backdrop-blur rounded-md px-3 py-1 text-xs text-yellow-400 font-mono border border-yellow-400/20">
               console.log(&quot;success!&quot;)
             </div>
-            <div className="absolute bottom-4 right-4 bg-slate-800/60 backdrop-blur rounded-md px-3 py-1 text-xs text-purple-400 font-mono">
+            <div className="absolute bottom-4 right-4 bg-slate-800/80 backdrop-blur rounded-md px-3 py-1 text-xs text-purple-400 font-mono border border-purple-400/20">
               🚀 deployed
             </div>
           </div>
@@ -52,16 +52,17 @@ export default function Hero() {
           animate="animate"
         >
           <m.h1 
-            className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight"
             variants={fadeInUp}
           >
             Transform Vague Ideas into{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-600">
               Concrete Plans
             </span>
           </m.h1>
+          
           <m.p 
-            className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto"
+            className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
             variants={fadeInUp}
           >
             Stop jumping into development without a plan. Our AI-powered 9-step methodology 
@@ -69,24 +70,28 @@ export default function Hero() {
           </m.p>
           
           {/* Waitlist Form for Hero */}
-          <m.div className="mt-10" variants={fadeIn} id="waitlist">
-            <p className="text-sm font-semibold text-white mb-4">
+          <m.div className="mb-12" variants={fadeIn} id="waitlist">
+            <m.p 
+              className="text-base font-semibold text-white mb-6"
+              variants={fadeInUp}
+            >
               Join the waitlist to get early access
-            </p>
+            </m.p>
             <div className="flex justify-center">
               <WaitlistForm source="hero" />
             </div>
           </m.div>
           
           <m.div 
-            className="mt-6 flex items-center justify-center"
+            className="flex items-center justify-center"
             variants={fadeInUp}
           >
             <Link
               href="#features"
-              className="text-sm font-semibold leading-6 text-white hover:text-purple-400 transition-colors duration-200"
+              className="group inline-flex items-center text-base font-semibold leading-6 text-white hover:text-purple-400 transition-colors duration-200"
             >
-              Learn more <span aria-hidden="true">→</span>
+              Learn more 
+              <span className="ml-2 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
             </Link>
           </m.div>
         </m.div>
