@@ -1,5 +1,11 @@
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
+import { MailerSend, EmailParams, Sender, Recipient } from 'mailersend';
+
+// Initialize MailerSend
+const mailerSend = new MailerSend({
+  apiKey: process.env.MAILERSEND_API_KEY || '',
+});
 
 // Create PostgreSQL connection with fallback configuration
 let pool: Pool | null = null;
@@ -78,6 +84,79 @@ if (!pool) {
   console.log('All connection attempts failed');
 }
 
+// Email sending function
+async function sendWelcomeEmail(email: string, position: number) {
+  if (!process.env.MAILERSEND_API_KEY) {
+    console.log('MailerSend API key not configured, skipping email');
+    return;
+  }
+
+  try {
+    const sentFrom = new Sender('waitlist@vibetoapp.com', 'VibeToApp Waitlist');
+    const recipients = [new Recipient(email, email)];
+
+    const emailParams = new EmailParams()
+      .setFrom(sentFrom)
+      .setTo(recipients)
+      .setReplyTo(sentFrom)
+      .setSubject('Welcome to the VibeToApp Waitlist! 🚀')
+      .setHtml(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Welcome to VibeToApp!</title>
+        </head>
+        <body style="font-family: 'Inter', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center; border-radius: 10px; margin-bottom: 30px;">
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">🚀 Welcome to VibeToApp!</h1>
+          </div>
+          
+          <div style="background: #f8f9fa; padding: 30px; border-radius: 10px; margin-bottom: 20px;">
+            <h2 style="color: #333; margin-top: 0;">You're on the list!</h2>
+            <p style="font-size: 16px; margin-bottom: 20px;">Thanks for joining the VibeToApp waitlist. You're position <strong>#${position}</strong> in line for early access!</p>
+            
+            <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
+              <h3 style="margin-top: 0; color: #667eea;">What happens next?</h3>
+              <ul style="padding-left: 20px;">
+                <li>We'll notify you as soon as VibeToApp is ready</li>
+                <li>Early access members get priority support</li>
+                <li>You'll be among the first to transform your ideas into concrete plans</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div style="text-align: center; margin-top: 30px;">
+            <p style="color: #666; font-size: 14px;">Questions? Reply to this email or visit our website.</p>
+            <p style="color: #666; font-size: 14px;">— The VibeToApp Team</p>
+          </div>
+        </body>
+        </html>
+      `)
+      .setText(`
+        Welcome to VibeToApp!
+        
+        Thanks for joining the VibeToApp waitlist. You're position #${position} in line for early access!
+        
+        What happens next?
+        • We'll notify you as soon as VibeToApp is ready
+        • Early access members get priority support  
+        • You'll be among the first to transform your ideas into concrete plans
+        
+        Questions? Reply to this email or visit our website.
+        
+        — The VibeToApp Team
+      `);
+
+    await mailerSend.email.send(emailParams);
+    console.log(`Welcome email sent to ${email}`);
+  } catch (error) {
+    console.error('Failed to send welcome email:', error);
+    // Don't throw error - email failure shouldn't prevent waitlist signup
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -101,11 +180,16 @@ export async function POST(request: Request) {
         userAgent: typeof document !== 'undefined' ? document.referrer : 'server'
       });
       
-      // You can monitor these in Vercel logs
+      // Send welcome email even without database
+      const position = Math.floor(Math.random() * 50) + 15;
+      sendWelcomeEmail(email, position).catch(err => 
+        console.error('Email sending failed:', err)
+      );
+      
       return NextResponse.json({
         success: true,
-        message: 'Successfully joined the waitlist! We\'ll be in touch soon.',
-        position: Math.floor(Math.random() * 50) + 15, // Realistic position
+        message: 'Successfully joined the waitlist! Check your email for confirmation.',
+        position,
         note: 'Entry logged - check Vercel logs for details'
       });
     }
@@ -152,9 +236,14 @@ export async function POST(request: Request) {
 
       console.log('New waitlist entry:', { email, source, referrer, position });
 
+      // Send welcome email (async, don't wait)
+      sendWelcomeEmail(email, position).catch(err => 
+        console.error('Email sending failed:', err)
+      );
+
       return NextResponse.json({
         success: true,
-        message: 'Successfully joined the waitlist',
+        message: 'Successfully joined the waitlist! Check your email for confirmation.',
         position,
         id: insertResult.rows[0].id,
       });
