@@ -2,20 +2,43 @@ import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
 export async function GET() {
+  // Let's also try some common Supabase hostname patterns
   const connectionStrings = [
     {
-      name: 'Password 1 (8#*W%5rT-3@rHmP)',
+      name: 'Current DATABASE_URL (as-is)',
+      url: process.env.DATABASE_URL || ''
+    },
+    {
+      name: 'AWS hostname (alternative)',
+      url: 'postgresql://postgres:8%23*W%255rT-3%40rHmP@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'
+    },
+    {
+      name: 'Original hostname - Password 1',
       url: 'postgresql://postgres:8%23*W%255rT-3%40rHmP@db.fnacmttwryutikqmmwsl.supabase.co:5432/postgres'
     },
     {
-      name: 'Password 2 (JqJ%J_t_gnxr2Rg)',
+      name: 'Original hostname - Password 2',
       url: 'postgresql://postgres:JqJ%25J_t_gnxr2Rg@db.fnacmttwryutikqmmwsl.supabase.co:5432/postgres'
-    },
-    {
-      name: 'Current DATABASE_URL',
-      url: process.env.DATABASE_URL || ''
     }
   ];
+  
+  // Also try to parse the current DATABASE_URL to see what's in it
+  let parsedUrl = null;
+  if (process.env.DATABASE_URL) {
+    try {
+      const url = new URL(process.env.DATABASE_URL);
+      parsedUrl = {
+        protocol: url.protocol,
+        hostname: url.hostname,
+        port: url.port,
+        pathname: url.pathname,
+        username: url.username,
+        password: url.password ? '***masked***' : 'none'
+      };
+    } catch (error) {
+      parsedUrl = { error: 'Failed to parse URL', details: error instanceof Error ? error.message : 'Unknown' };
+    }
+  }
 
   const results = [];
 
@@ -62,6 +85,13 @@ export async function GET() {
       databaseUrlLength: process.env.DATABASE_URL?.length || 0,
       nodeEnv: process.env.NODE_ENV
     },
-    connectionTests: results
+    parsedCurrentUrl: parsedUrl,
+    connectionTests: results,
+    recommendations: [
+      '1. Check if Supabase project is paused (https://supabase.com/dashboard)',
+      '2. Verify the hostname in your Supabase project settings',
+      '3. Check if you need to use the pooler connection string',
+      '4. Ensure the project is in the correct region'
+    ]
   });
 }
