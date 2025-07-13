@@ -4,34 +4,78 @@ import { Pool } from 'pg';
 // Create PostgreSQL connection with fallback configuration
 let pool: Pool | null = null;
 
-if (process.env.DATABASE_URL) {
-  console.log('DATABASE_URL found, creating pool...');
-  
-  try {
-    pool = new Pool({
+// Try different connection methods
+const connectionOptions = [
+  {
+    name: 'DATABASE_URL from env',
+    config: process.env.DATABASE_URL ? {
       connectionString: process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false }
-    });
-  } catch (error) {
-    console.error('Failed to create pool with DATABASE_URL:', error);
-    
-    // Fallback: try to parse the URL manually
-    try {
-      pool = new Pool({
-        host: 'db.fnacmttwryutikqmmwsl.supabase.co',
-        port: 5432,
-        database: 'postgres',
-        user: 'postgres',
-        password: '8#*W%5rT-3@rHmP',
-        ssl: { rejectUnauthorized: false }
-      });
-      console.log('Using fallback connection config');
-    } catch (fallbackError) {
-      console.error('Fallback connection also failed:', fallbackError);
+    } : null
+  },
+  {
+    name: 'Password 1 encoded',
+    config: {
+      connectionString: 'postgresql://postgres:8%23*W%255rT-3%40rHmP@db.fnacmttwryutikqmmwsl.supabase.co:5432/postgres',
+      ssl: { rejectUnauthorized: false }
+    }
+  },
+  {
+    name: 'Password 2 encoded', 
+    config: {
+      connectionString: 'postgresql://postgres:JqJ%25J_t_gnxr2Rg@db.fnacmttwryutikqmmwsl.supabase.co:5432/postgres',
+      ssl: { rejectUnauthorized: false }
+    }
+  },
+  {
+    name: 'Password 1 direct',
+    config: {
+      host: 'db.fnacmttwryutikqmmwsl.supabase.co',
+      port: 5432,
+      database: 'postgres',
+      user: 'postgres',
+      password: '8#*W%5rT-3@rHmP',
+      ssl: { rejectUnauthorized: false }
+    }
+  },
+  {
+    name: 'Password 2 direct',
+    config: {
+      host: 'db.fnacmttwryutikqmmwsl.supabase.co',
+      port: 5432,
+      database: 'postgres',
+      user: 'postgres',
+      password: 'JqJ%J_t_gnxr2Rg',
+      ssl: { rejectUnauthorized: false }
     }
   }
-} else {
-  console.log('DATABASE_URL not found in environment variables');
+];
+
+for (const option of connectionOptions) {
+  if (!option.config) continue;
+  
+  try {
+    console.log(`Trying connection: ${option.name}`);
+    pool = new Pool(option.config);
+    
+    // Test the connection
+    const testClient = await pool.connect();
+    await testClient.query('SELECT 1');
+    testClient.release();
+    
+    console.log(`Success with: ${option.name}`);
+    break;
+  } catch (error) {
+    console.log(`Failed with ${option.name}:`, error instanceof Error ? error.message : error);
+    if (pool) {
+      await pool.end().catch(() => {});
+      pool = null;
+    }
+  }
+}
+
+if (!pool) {
+  console.log('All connection attempts failed');
 }
 
 export async function POST(request: Request) {
