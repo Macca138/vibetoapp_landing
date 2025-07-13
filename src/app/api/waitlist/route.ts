@@ -1,11 +1,38 @@
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
-// Create PostgreSQL connection with proper URL encoding
-const pool = process.env.DATABASE_URL ? new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-}) : null;
+// Create PostgreSQL connection with fallback configuration
+let pool: Pool | null = null;
+
+if (process.env.DATABASE_URL) {
+  console.log('DATABASE_URL found, creating pool...');
+  
+  try {
+    pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false }
+    });
+  } catch (error) {
+    console.error('Failed to create pool with DATABASE_URL:', error);
+    
+    // Fallback: try to parse the URL manually
+    try {
+      pool = new Pool({
+        host: 'db.fnacmttwryutikqmmwsl.supabase.co',
+        port: 5432,
+        database: 'postgres',
+        user: 'postgres',
+        password: '8#*W%5rT-3@rHmP',
+        ssl: { rejectUnauthorized: false }
+      });
+      console.log('Using fallback connection config');
+    } catch (fallbackError) {
+      console.error('Fallback connection also failed:', fallbackError);
+    }
+  }
+} else {
+  console.log('DATABASE_URL not found in environment variables');
+}
 
 export async function POST(request: Request) {
   try {
