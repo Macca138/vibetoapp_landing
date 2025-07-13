@@ -1,84 +1,144 @@
 'use client';
 
 import { m } from 'framer-motion';
-import { fadeInUp, containerVariants } from '@/lib/animations';
+import { fadeInUp, scaleIn, containerVariants } from '@/lib/animations';
+import { 
+  Lightbulb, 
+  Target, 
+  Users, 
+  Layers, 
+  GitBranch, 
+  Code, 
+  DollarSign, 
+  Rocket, 
+  FileText 
+} from 'lucide-react';
 
 const features = [
   {
-    name: 'AI-Powered Guidance',
-    description: 'Our intelligent system helps you articulate and refine your ideas through a proven 9-step methodology.',
-    icon: '🧠',
+    step: 1,
+    icon: <Lightbulb className="h-6 w-6" />,
+    name: 'Articulate Idea',
+    description: 'Start with a simple description of your app idea, no matter how vague or rough.',
   },
   {
-    name: 'Structured Workflow',
-    description: 'Follow a step-by-step process that transforms vague concepts into detailed project specifications.',
-    icon: '📋',
+    step: 2,
+    icon: <Target className="h-6 w-6" />,
+    name: 'Fleshing Out',
+    description: 'AI helps you clarify the main problem your app solves and its core value proposition.',
   },
   {
-    name: 'Export Ready Plans',
-    description: 'Generate professional documentation and project plans ready for development teams.',
-    icon: '📄',
+    step: 3,
+    icon: <Users className="h-6 w-6" />,
+    name: 'High Level Technical Architecture',
+    description: 'Design the overall technical structure and system architecture for your application.',
   },
   {
-    name: 'Save Time & Money',
-    description: 'Avoid costly mistakes and endless revisions with clear requirements from the start.',
-    icon: '💰',
+    step: 4,
+    icon: <Layers className="h-6 w-6" />,
+    name: 'Feature Stories & UX Flows',
+    description: 'Create detailed user stories and UX flows for your app features.',
+  },
+  {
+    step: 5,
+    icon: <GitBranch className="h-6 w-6" />,
+    name: 'Design System & Style Guide',
+    description: 'Create a comprehensive visual identity and design system for your app.',
+  },
+  {
+    step: 6,
+    icon: <Code className="h-6 w-6" />,
+    name: 'Screen States Specification',
+    description: 'Define detailed screen layouts and states for each feature.',
+  },
+  {
+    step: 7,
+    icon: <DollarSign className="h-6 w-6" />,
+    name: 'Comprehensive Technical Specification',
+    description: 'Create a detailed technical specification document for development.',
+  },
+  {
+    step: 8,
+    icon: <Rocket className="h-6 w-6" />,
+    name: 'Development Rules Integration',
+    description: 'Apply best practices and development standards for your tech stack.',
+  },
+  {
+    step: 9,
+    icon: <FileText className="h-6 w-6" />,
+    name: 'Implementation Planning',
+    description: 'Break down the technical specification into detailed, actionable development tasks.',
   },
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="py-24 sm:py-32">
+    <section id="features" className="py-24 sm:py-32 bg-slate-900/50">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <m.div 
           className="mx-auto max-w-2xl text-center"
-          variants={containerVariants}
           initial="initial"
           whileInView="animate"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
         >
           <m.h2 
-            className="text-3xl font-bold tracking-tight text-white sm:text-4xl"
+            className="text-base font-semibold leading-7 text-purple-400"
             variants={fadeInUp}
           >
-            Turn Ideas Into Action
+            AI-Powered Workflow
           </m.h2>
+          <m.p 
+            className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+            variants={fadeInUp}
+          >
+            The 9-Step Planning Journey
+          </m.p>
           <m.p 
             className="mt-6 text-lg leading-8 text-gray-300"
             variants={fadeInUp}
           >
-            Our proven methodology helps founders, product managers, and developers 
-            create clear, actionable project specifications.
+            Our proven process guides you from initial concept to development-ready specifications
           </m.p>
         </m.div>
         
         <m.div 
-          className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none"
-          variants={containerVariants}
+          className="mx-auto mt-16 max-w-7xl"
           initial="initial"
           whileInView="animate"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.2 }}
+          variants={containerVariants}
         >
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2 xl:grid-cols-4">
-            {features.map((feature, index) => (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature) => (
               <m.div 
-                key={feature.name} 
-                className="flex flex-col items-center text-center"
-                variants={fadeInUp}
-                transition={{ delay: index * 0.1 }}
+                key={feature.step} 
+                className="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl hover:bg-slate-800/70 transition-colors cursor-pointer group"
+                variants={scaleIn}
+                whileHover={{
+                  y: -4,
+                  transition: { duration: 0.3, ease: 'easeOut' }
+                }}
               >
-                <dt className="flex flex-col items-center gap-y-4">
-                  <div className="text-4xl">{feature.icon}</div>
-                  <div className="text-base font-semibold leading-7 text-white">
-                    {feature.name}
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 rounded-lg bg-purple-500/20 text-purple-400">
+                    {feature.icon}
                   </div>
-                </dt>
-                <dd className="mt-1 text-base leading-7 text-gray-300">
+                  <div>
+                    <div className="text-sm text-purple-400 font-medium">
+                      Step {feature.step}
+                    </div>
+                    <h3 className="text-white text-sm font-semibold">
+                      {feature.name}
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-gray-300 text-sm leading-6">
                   {feature.description}
-                </dd>
+                </p>
               </m.div>
             ))}
-          </dl>
+          </div>
         </m.div>
       </div>
     </section>
