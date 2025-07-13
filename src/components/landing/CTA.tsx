@@ -28,43 +28,117 @@ export default function CTA() {
               className="mt-2 text-4xl font-bold tracking-tight text-white sm:text-5xl"
               variants={fadeInUp}
             >
-              Start planning for free
+              Flexible pricing for every need
             </m.p>
             
-            {/* Pricing Card */}
-            <m.div 
-              className="mx-auto mt-16 max-w-lg rounded-3xl bg-slate-800/50 border border-slate-700 p-8 ring-1 ring-purple-500/20"
-              variants={scaleIn}
-            >
-              <h3 className="text-lg font-semibold leading-8 text-white">
-                Early Access
-              </h3>
-              <p className="mt-4 text-sm leading-6 text-gray-300">
-                Get lifetime access when we launch
-              </p>
-              <p className="mt-6 flex items-baseline gap-x-1">
-                <span className="text-4xl font-bold tracking-tight text-white">Free</span>
-                <span className="text-sm font-semibold leading-6 text-gray-300">for early adopters</span>
-              </p>
-              <ul className="mt-8 space-y-3 text-sm leading-6 text-gray-300">
-                <li className="flex gap-x-3">
-                  <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
-                  Complete 9-step AI workflow
-                </li>
-                <li className="flex gap-x-3">
-                  <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
-                  Export ready specifications
-                </li>
-                <li className="flex gap-x-3">
-                  <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
-                  Unlimited projects
-                </li>
-                <li className="flex gap-x-3">
-                  <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
-                  Priority support
-                </li>
-              </ul>
-            </m.div>
+            {/* Pricing Cards */}
+            <div className="mx-auto mt-16 grid max-w-lg grid-cols-1 gap-8 lg:max-w-4xl lg:grid-cols-3">
+              {/* Project Unlock */}
+              <m.div 
+                className="rounded-3xl bg-slate-800/50 border border-slate-700 p-8 ring-1 ring-gray-700/50"
+                variants={scaleIn}
+              >
+                <h3 className="text-lg font-semibold leading-8 text-white">
+                  Project Unlock
+                </h3>
+                <p className="mt-4 text-sm leading-6 text-gray-300">
+                  Perfect for single projects
+                </p>
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-4xl font-bold tracking-tight text-white">$9.97</span>
+                  <span className="text-sm font-semibold leading-6 text-gray-300">one-time</span>
+                </p>
+                <ul className="mt-8 space-y-3 text-sm leading-6 text-gray-300">
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    Complete 9-step AI workflow
+                  </li>
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    Export ready specifications
+                  </li>
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    Lifetime access to project
+                  </li>
+                </ul>
+              </m.div>
+              
+              {/* Monthly - Most Popular */}
+              <m.div 
+                className="rounded-3xl bg-slate-800/50 border border-purple-500 p-8 ring-1 ring-purple-500/50 relative"
+                variants={scaleIn}
+              >
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                    Most Popular
+                  </span>
+                </div>
+                <h3 className="text-lg font-semibold leading-8 text-white">
+                  Monthly Plan
+                </h3>
+                <p className="mt-4 text-sm leading-6 text-gray-300">
+                  Best for active developers
+                </p>
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-4xl font-bold tracking-tight text-white">$29.97</span>
+                  <span className="text-sm font-semibold leading-6 text-gray-300">per month</span>
+                </p>
+                <ul className="mt-8 space-y-3 text-sm leading-6 text-gray-300">
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    Unlimited projects
+                  </li>
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    All AI workflow features
+                  </li>
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    Priority support
+                  </li>
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    Advanced analytics
+                  </li>
+                </ul>
+              </m.div>
+              
+              {/* Yearly */}
+              <m.div 
+                className="rounded-3xl bg-slate-800/50 border border-slate-700 p-8 ring-1 ring-gray-700/50"
+                variants={scaleIn}
+              >
+                <h3 className="text-lg font-semibold leading-8 text-white">
+                  Yearly Plan
+                </h3>
+                <p className="mt-4 text-sm leading-6 text-gray-300">
+                  Save $59.94 per year
+                </p>
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-4xl font-bold tracking-tight text-white">$299.70</span>
+                  <span className="text-sm font-semibold leading-6 text-gray-300">per year</span>
+                </p>
+                <ul className="mt-8 space-y-3 text-sm leading-6 text-gray-300">
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    Unlimited projects
+                  </li>
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    All AI workflow features
+                  </li>
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    Priority support
+                  </li>
+                  <li className="flex gap-x-3">
+                    <CheckCircle className="h-6 w-5 flex-none text-purple-400" aria-hidden="true" />
+                    2 months free
+                  </li>
+                </ul>
+              </m.div>
+            </div>
           </m.div>
         </div>
       </section>

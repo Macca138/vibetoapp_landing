@@ -11,67 +11,56 @@ const heroImages = [
   {
     src: '/images/pexels-diva-plavalaguna-6149793.jpg',
     alt: 'Professional woman coding at desk',
-    flip: false, // Already facing right
-    textPosition: 'left' // Text on left, person looks at it from right
+    flip: false, // Person facing right
+    textPosition: 'left' // Text on left, person looks toward it
   },
   {
     src: '/images/pexels-olly-926390.jpg', 
     alt: 'Young professional at computer',
-    flip: true, // Flip to face right
-    textPosition: 'left'
+    flip: false, // Person naturally facing right
+    textPosition: 'left' // Text on left, person looks toward it
   },
   {
     src: '/images/pexels-rdne-5915203.jpg',
     alt: 'Team collaborating on project',
-    flip: false,
-    textPosition: 'right' // Text on right, person looks at it from left
+    flip: true, // Flip so people face right
+    textPosition: 'left' // Text on left, people look toward it
   },
   {
     src: '/images/pexels-shvetsa-3727459.jpg',
     alt: 'Developer working on laptop',
-    flip: false,
-    textPosition: 'left'
-  },
-  {
-    src: '/images/pexels-snapwire-618613.jpg',
-    alt: 'Person planning with laptop',
-    flip: true,
-    textPosition: 'left'
+    flip: true, // Flip so person faces right
+    textPosition: 'left' // Text on left, person looks toward it
   },
   {
     src: '/images/pexels-tima-miroshnichenko-5198239.jpg',
     alt: 'Professional coding session',
-    flip: false,
-    textPosition: 'right'
+    flip: false, // Person facing left naturally
+    textPosition: 'right' // Text on right, person looks toward it
   },
   {
     src: '/images/pexels-vanessa-garcia-6325895.jpg',
     alt: 'Creative professional at work',
-    flip: true,
-    textPosition: 'left'
+    flip: false, // Person facing right naturally
+    textPosition: 'left' // Text on left, person looks toward it
   },
   {
     src: '/images/pexels-vlada-karpovich-4050292.jpg',
     alt: 'Focused developer coding',
-    flip: false,
-    textPosition: 'left'
-  },
-  {
-    src: '/images/pexels-vlada-karpovich-8367832.jpg',
-    alt: 'Tech professional at desk',
-    flip: true,
-    textPosition: 'left'
+    flip: true, // Flip so person faces right
+    textPosition: 'left' // Text on left, person looks toward it
   },
   {
     src: '/images/pexels-yankrukov-4458386.jpg',
     alt: 'Developer working on project',
-    flip: false,
-    textPosition: 'right'
+    flip: false, // Person facing left naturally
+    textPosition: 'right' // Text on right, person looks toward it
   }
 ];
 
 export default function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
   
   useEffect(() => {
     // Randomly select an image on component mount
@@ -90,9 +79,12 @@ export default function Hero() {
           src={currentImage.src}
           alt={currentImage.alt}
           fill
-          className={`object-cover object-center ${currentImage.flip ? 'scale-x-[-1]' : ''}`}
+          className={`object-cover object-center transition-opacity duration-500 ${currentImage.flip ? 'scale-x-[-1]' : ''} ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
           priority
+          onLoad={() => setImageLoaded(true)}
         />
+        {/* Fallback gradient background */}
+        <div className={`absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 transition-opacity duration-500 ${imageLoaded ? 'opacity-0' : 'opacity-100'}`} />
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-black/40" />
       </div>
