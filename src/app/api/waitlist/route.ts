@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
-// Create PostgreSQL connection
+// Create PostgreSQL connection with proper URL encoding
 const pool = process.env.DATABASE_URL ? new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  ssl: { rejectUnauthorized: false }
 }) : null;
 
 export async function POST(request: Request) {
@@ -34,6 +34,17 @@ export async function POST(request: Request) {
     const client = await pool.connect();
     
     try {
+      // Create table if it doesn't exist
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS waitlist (
+          id SERIAL PRIMARY KEY,
+          email VARCHAR(255) UNIQUE NOT NULL,
+          source VARCHAR(100),
+          referrer TEXT,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+
       // Check if email already exists
       const existingResult = await client.query(
         'SELECT id FROM waitlist WHERE email = $1',
@@ -75,8 +86,13 @@ export async function POST(request: Request) {
 
   } catch (error) {
     console.error('Waitlist submission error:', error);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      databaseUrl: process.env.DATABASE_URL ? 'Set' : 'Not set'
+    });
     return NextResponse.json(
-      { error: 'Failed to join waitlist' },
+      { error: `Failed to join waitlist: ${error instanceof Error ? error.message : 'Unknown error'}` },
       { status: 500 }
     );
   }
@@ -95,6 +111,17 @@ export async function GET() {
     const client = await pool.connect();
     
     try {
+      // Create table if it doesn't exist
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS waitlist (
+          id SERIAL PRIMARY KEY,
+          email VARCHAR(255) UNIQUE NOT NULL,
+          source VARCHAR(100),
+          referrer TEXT,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+
       const result = await client.query(
         'SELECT COUNT(*) as count FROM waitlist'
       );
@@ -112,8 +139,12 @@ export async function GET() {
 
   } catch (error) {
     console.error('Waitlist count error:', error);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      databaseUrl: process.env.DATABASE_URL ? 'Set' : 'Not set'
+    });
     return NextResponse.json(
-      { error: 'Failed to get waitlist count' },
+      { error: `Failed to get waitlist count: ${error instanceof Error ? error.message : 'Unknown error'}` },
       { status: 500 }
     );
   }
