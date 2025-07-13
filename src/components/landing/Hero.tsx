@@ -37,7 +37,7 @@ export default function Hero() {
               &lt;App /&gt;
             </div>
             <div className="absolute bottom-4 left-4 bg-slate-800/60 backdrop-blur rounded-md px-3 py-1 text-xs text-yellow-400 font-mono">
-              console.log("success!")
+              console.log(&quot;success!&quot;)
             </div>
             <div className="absolute bottom-4 right-4 bg-slate-800/60 backdrop-blur rounded-md px-3 py-1 text-xs text-purple-400 font-mono">
               🚀 deployed
