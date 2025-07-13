@@ -25,7 +25,7 @@ export default function CTA() {
             className="text-xl text-gray-300 mb-8"
             variants={fadeInUp}
           >
-            Join thousands of developers who've transformed their chaotic ideas into successful projects.
+            Join thousands of developers who&apos;ve transformed their chaotic ideas into successful projects.
           </m.p>
           
           {/* Waitlist Form */}
