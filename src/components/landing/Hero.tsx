@@ -9,52 +9,58 @@ import { fadeInUp, fadeIn, containerVariants } from '@/lib/animations';
 
 const heroImages = [
   {
-    src: '/images/pexels-diva-plavalaguna-6149793.jpg',
-    alt: 'Professional woman coding at desk',
-    flip: false, // Person facing right
-    textPosition: 'left' // Text on left, person looks toward it
+    src: '/images/hero1.jpg',
+    alt: 'Professional developer at work - Step 1',
+    flip: false, // No flipping as requested
+    textPosition: 'left' // Left side of the page
   },
   {
-    src: '/images/pexels-olly-926390.jpg', 
-    alt: 'Young professional at computer',
-    flip: false, // Person naturally facing right
-    textPosition: 'left' // Text on left, person looks toward it
+    src: '/images/hero2.jpg', 
+    alt: 'Creative professional planning - Step 2',
+    flip: false, // No flipping as requested
+    textPosition: 'right' // Right side of the page
   },
   {
-    src: '/images/pexels-rdne-5915203.jpg',
-    alt: 'Team collaborating on project',
-    flip: true, // Flip so people face right
-    textPosition: 'left' // Text on left, people look toward it
+    src: '/images/hero3.jpg',
+    alt: 'Team collaboration session - Step 3',
+    flip: false, // No flipping as requested
+    textPosition: 'left' // Left side of the page
   },
   {
-    src: '/images/pexels-shvetsa-3727459.jpg',
-    alt: 'Developer working on laptop',
-    flip: true, // Flip so person faces right
-    textPosition: 'left' // Text on left, person looks toward it
+    src: '/images/hero4.jpg',
+    alt: 'Developer coding solutions - Step 4',
+    flip: false, // No flipping as requested
+    textPosition: 'left' // Left side of the page
   },
   {
-    src: '/images/pexels-tima-miroshnichenko-5198239.jpg',
-    alt: 'Professional coding session',
-    flip: false, // Person facing left naturally
-    textPosition: 'right' // Text on right, person looks toward it
+    src: '/images/hero5.jpg',
+    alt: 'Designer creating interfaces - Step 5',
+    flip: false, // No flipping as requested
+    textPosition: 'left' // Left side of the page
   },
   {
-    src: '/images/pexels-vanessa-garcia-6325895.jpg',
-    alt: 'Creative professional at work',
-    flip: false, // Person facing right naturally
-    textPosition: 'left' // Text on left, person looks toward it
+    src: '/images/hero6.jpg',
+    alt: 'Professional at computer - Step 6',
+    flip: false, // No flipping as requested
+    textPosition: 'left' // Left side of the page
   },
   {
-    src: '/images/pexels-vlada-karpovich-4050292.jpg',
-    alt: 'Focused developer coding',
-    flip: true, // Flip so person faces right
-    textPosition: 'left' // Text on left, person looks toward it
+    src: '/images/hero7.jpg',
+    alt: 'Tech specialist working - Step 7',
+    flip: false, // No flipping as requested
+    textPosition: 'left' // Left side of the page
   },
   {
-    src: '/images/pexels-yankrukov-4458386.jpg',
-    alt: 'Developer working on project',
-    flip: false, // Person facing left naturally
-    textPosition: 'right' // Text on right, person looks toward it
+    src: '/images/hero8.jpg',
+    alt: 'Developer implementing solutions - Step 8',
+    flip: false, // No flipping as requested
+    textPosition: 'right' // Right side of the page
+  },
+  {
+    src: '/images/hero9.jpg',
+    alt: 'Project completion and planning - Step 9',
+    flip: false, // No flipping as requested
+    textPosition: 'left' // Left side of the page
   }
 ];
 
@@ -79,7 +85,7 @@ export default function Hero() {
           src={currentImage.src}
           alt={currentImage.alt}
           fill
-          className={`object-cover object-center transition-opacity duration-500 ${currentImage.flip ? 'scale-x-[-1]' : ''} ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`object-cover object-center transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
           priority
           onLoad={() => setImageLoaded(true)}
         />
