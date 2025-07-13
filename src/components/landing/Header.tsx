@@ -43,8 +43,8 @@ export default function Header() {
             </Link>
           </m.div>
           <m.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
-            <Link href="#" className="text-sm font-semibold leading-6 text-white hover:text-purple-400 transition-colors duration-200">
-              About
+            <Link href="#pricing" className="text-sm font-semibold leading-6 text-white hover:text-purple-400 transition-colors duration-200">
+              Pricing
             </Link>
           </m.div>
         </div>
@@ -89,10 +89,11 @@ export default function Header() {
                     Features
                   </Link>
                   <Link
-                    href="#"
+                    href="#pricing"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
-                    About
+                    Pricing
                   </Link>
                 </div>
                 <div className="py-6">
