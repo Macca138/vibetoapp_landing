@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
+    "@types/pg": "^8.15.4",
     "framer-motion": "^12.23.3",
     "next": "15.3.5",
+    "pg": "^8.16.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
