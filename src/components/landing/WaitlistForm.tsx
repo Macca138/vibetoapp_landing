@@ -15,11 +15,19 @@ export default function WaitlistForm({ source = 'landing' }: WaitlistFormProps) 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [consent, setConsent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+
+    // Check GDPR consent
+    if (!consent) {
+      setError('Please agree to our privacy policy to continue.');
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await fetch('/api/waitlist', {
@@ -42,6 +50,7 @@ export default function WaitlistForm({ source = 'landing' }: WaitlistFormProps) 
 
       setSuccess(true);
       setEmail('');
+      setConsent(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to join waitlist');
     } finally {
@@ -120,8 +129,8 @@ export default function WaitlistForm({ source = 'landing' }: WaitlistFormProps) 
         <div className="mt-3 sm:mt-0 sm:flex-shrink-0">
           <AnimatedButton
             type="submit"
-            disabled={loading}
-            className="block w-full sm:w-auto px-6 py-3 font-medium whitespace-nowrap"
+            disabled={loading || !consent}
+            className="block w-full sm:w-auto px-6 py-3 font-medium whitespace-nowrap disabled:opacity-50"
           >
             {loading ? (
               <m.span
@@ -142,6 +151,24 @@ export default function WaitlistForm({ source = 'landing' }: WaitlistFormProps) 
           </AnimatedButton>
         </div>
       </form>
+      
+      {/* GDPR Consent */}
+      <div className="mt-4">
+        <label className="flex items-start space-x-3 text-sm text-gray-300 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => setConsent(e.target.checked)}
+            className="mt-1 h-4 w-4 rounded border-gray-600 bg-slate-700 text-purple-500 focus:ring-purple-500 focus:ring-2"
+          />
+          <span className="leading-relaxed">
+            I agree to VibeToApp collecting and processing my email address for waitlist notifications and early access communications. 
+            <a href="#privacy" className="text-purple-400 hover:text-purple-300 underline ml-1">
+              View Privacy Policy
+            </a>
+          </span>
+        </label>
+      </div>
       
       {/* Error message outside the form to prevent layout shifts */}
       <div className="mt-3 min-h-[2rem]">
