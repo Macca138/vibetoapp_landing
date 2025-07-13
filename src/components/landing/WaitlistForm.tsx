@@ -96,61 +96,67 @@ export default function WaitlistForm({ source = 'landing' }: WaitlistFormProps) 
   }
 
   return (
-    <m.form 
-      onSubmit={handleSubmit} 
-      className="mt-8 sm:flex sm:max-w-md"
+    <m.div 
+      className="mt-8 w-full max-w-md mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="min-w-0 flex-1">
-        <label htmlFor="email" className="sr-only">
-          Email address
-        </label>
-        <AnimatedInput
-          type="email"
-          name="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          required
-        />
+      <form onSubmit={handleSubmit} className="sm:flex sm:gap-3">
+        <div className="min-w-0 flex-1">
+          <label htmlFor="email" className="sr-only">
+            Email address
+          </label>
+          <AnimatedInput
+            type="email"
+            name="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div className="mt-3 sm:mt-0 sm:flex-shrink-0">
+          <AnimatedButton
+            type="submit"
+            disabled={loading}
+            className="block w-full sm:w-auto px-6 py-3 font-medium whitespace-nowrap"
+          >
+            {loading ? (
+              <m.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center justify-center"
+              >
+                <m.div
+                  className="w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                />
+                Joining...
+              </m.span>
+            ) : (
+              'Join Waitlist'
+            )}
+          </AnimatedButton>
+        </div>
+      </form>
+      
+      {/* Error message outside the form to prevent layout shifts */}
+      <div className="mt-3 min-h-[2rem]">
+        {error && (
+          <m.p 
+            className="text-sm text-red-300 bg-red-900/20 border border-red-500/20 rounded-lg px-3 py-2"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+          >
+            {error}
+          </m.p>
+        )}
       </div>
-      <div className="mt-3 sm:ml-3 sm:mt-0">
-        <AnimatedButton
-          type="submit"
-          disabled={loading}
-          className="block w-full px-4 py-3 font-medium"
-        >
-          {loading ? (
-            <m.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center justify-center"
-            >
-              <m.div
-                className="w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              />
-              Joining...
-            </m.span>
-          ) : (
-            'Join Waitlist'
-          )}
-        </AnimatedButton>
-      </div>
-      {error && (
-        <m.p 
-          className="mt-3 text-sm text-red-300 bg-red-900/20 border border-red-500/20 rounded-lg px-3 py-2"
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {error}
-        </m.p>
-      )}
-    </m.form>
+    </m.div>
   );
 }
