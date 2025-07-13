@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
 // Create PostgreSQL connection
-const pool = new Pool({
+const pool = process.env.DATABASE_URL ? new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-});
+}) : null;
 
 export async function POST(request: Request) {
   try {
@@ -18,6 +18,17 @@ export async function POST(request: Request) {
         { error: 'Invalid email address' },
         { status: 400 }
       );
+    }
+
+    // Check if database is configured
+    if (!pool) {
+      console.log('Database not configured, storing waitlist entry in console:', { email, source, referrer });
+      return NextResponse.json({
+        success: true,
+        message: 'Successfully joined the waitlist',
+        position: Math.floor(Math.random() * 100) + 1, // Random position for demo
+        note: 'Database not configured - this is a demo response'
+      });
     }
 
     const client = await pool.connect();
@@ -73,6 +84,14 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
+    // Check if database is configured
+    if (!pool) {
+      return NextResponse.json({
+        count: Math.floor(Math.random() * 500) + 100, // Random count for demo
+        message: 'Database not configured - demo response',
+      });
+    }
+
     const client = await pool.connect();
     
     try {

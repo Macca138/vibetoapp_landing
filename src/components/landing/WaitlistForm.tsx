@@ -143,7 +143,7 @@ export default function WaitlistForm({ source = 'landing' }: WaitlistFormProps) 
       </div>
       {error && (
         <m.p 
-          className="mt-3 text-sm text-red-600"
+          className="mt-3 text-sm text-red-300 bg-red-900/20 border border-red-500/20 rounded-lg px-3 py-2"
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3 }}
