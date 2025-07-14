@@ -9,10 +9,6 @@ export async function GET() {
       }, { status: 500 });
     }
 
-    const mailerSend = new MailerSend({
-      apiKey: process.env.MAILERSEND_API_KEY,
-    });
-
     // Try to get account info/domains
     try {
       // This should work to test the API key
