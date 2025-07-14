@@ -25,8 +25,9 @@ export async function POST(request: Request) {
       apiKey: process.env.MAILERSEND_API_KEY,
     });
 
-    // Create test email
-    const sentFrom = new Sender('waitlist@vibetoapp.com', 'VibeToApp Test');
+    // Create test email - try with a verified sender first
+    // MailerSend provides noreply@trial-123.mlsender.net for testing
+    const sentFrom = new Sender('noreply@trial-123.mlsender.net', 'VibeToApp Test');
     const recipients = [new Recipient(email, 'Test User')];
 
     const emailParams = new EmailParams()
@@ -77,14 +78,39 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('MailerSend test error:', error);
     
+    // Try to extract more detailed error information
+    let errorDetails = 'Unknown error';
+    let errorCode = null;
+    let errorType = 'Unknown';
+    
+    if (error instanceof Error) {
+      errorDetails = error.message;
+      errorType = error.constructor.name;
+      
+      // Check if it's a MailerSend API error
+      if (error.message.includes('422') || error.message.includes('Unprocessable Entity')) {
+        errorDetails += ' - This usually means domain verification is required';
+      }
+      if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+        errorDetails += ' - Check your API key';
+      }
+      if (error.message.includes('403') || error.message.includes('Forbidden')) {
+        errorDetails += ' - Domain not verified or sender not authorized';
+      }
+    }
+    
     return NextResponse.json({
       error: 'Failed to send test email',
-      details: error instanceof Error ? error.message : 'Unknown error',
+      details: errorDetails,
       debug: {
         hasApiKey: !!process.env.MAILERSEND_API_KEY,
         apiKeyLength: process.env.MAILERSEND_API_KEY?.length,
-        errorType: error instanceof Error ? error.constructor.name : 'Unknown',
-        timestamp: new Date().toISOString()
+        apiKeyPrefix: process.env.MAILERSEND_API_KEY?.substring(0, 6) + '...',
+        errorType,
+        errorCode,
+        timestamp: new Date().toISOString(),
+        senderEmail: 'waitlist@vibetoapp.com',
+        domainStatus: 'Check MailerSend dashboard for domain verification'
       }
     }, { status: 500 });
   }
