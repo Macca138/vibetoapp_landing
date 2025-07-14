@@ -25,9 +25,9 @@ export async function POST(request: Request) {
       apiKey: process.env.MAILERSEND_API_KEY,
     });
 
-    // Create test email - try with a verified sender first
-    // MailerSend provides noreply@trial-123.mlsender.net for testing
-    const sentFrom = new Sender('noreply@trial-123.mlsender.net', 'VibeToApp Test');
+    // Create test email - you need a verified domain/sender
+    // For testing, we'll try the original sender but we expect this to fail
+    const sentFrom = new Sender('waitlist@vibetoapp.com', 'VibeToApp Test');
     const recipients = [new Recipient(email, 'Test User')];
 
     const emailParams = new EmailParams()
