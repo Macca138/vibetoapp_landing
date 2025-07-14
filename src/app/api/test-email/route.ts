@@ -27,7 +27,7 @@ export async function POST(request: Request) {
 
     // Create test email - you need a verified domain/sender
     // For testing, we'll try the original sender but we expect this to fail
-    const sentFrom = new Sender('waitlist@vibetoapp.com', 'VibeToApp Test');
+    const sentFrom = new Sender('waitlist@test-r9084zvd5rmgw63d.mlsender.net', 'VibeToApp Test');
     const recipients = [new Recipient(email, 'Test User')];
 
     const emailParams = new EmailParams()

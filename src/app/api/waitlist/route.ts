@@ -92,7 +92,7 @@ async function sendWelcomeEmail(email: string, position: number) {
   }
 
   try {
-    const sentFrom = new Sender('waitlist@vibetoapp.com', 'VibeToApp Waitlist');
+    const sentFrom = new Sender('waitlist@test-r9084zvd5rmgw63d.mlsender.net', 'VibeToApp Waitlist');
     const recipients = [new Recipient(email, email)];
 
     const emailParams = new EmailParams()
