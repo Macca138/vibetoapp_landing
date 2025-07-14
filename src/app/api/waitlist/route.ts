@@ -90,11 +90,13 @@ async function sendWelcomeEmail(email: string, position: number) {
   }
 
   try {
-    const { data, error } = await resend.emails.send({
-      from: 'VibeToApp Waitlist <waitlist@vibetoapp.com>',
-      to: [email],
-      subject: 'Welcome to the VibeToApp Waitlist! 🚀',
-      html: `
+    // Add timeout and retry logic
+    const { data, error } = await Promise.race([
+      resend.emails.send({
+        from: 'VibeToApp Waitlist <waitlist@vibetoapp.com>',
+        to: [email],
+        subject: 'Welcome to the VibeToApp Waitlist! 🚀',
+        html: `
         <!DOCTYPE html>
         <html>
         <head>
@@ -142,7 +144,11 @@ async function sendWelcomeEmail(email: string, position: number) {
         
         — The VibeToApp Team
       `
-    });
+      }),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Email send timeout')), 10000)
+      )
+    ]);
 
     if (error) {
       console.error('Failed to send welcome email:', error);
@@ -152,6 +158,13 @@ async function sendWelcomeEmail(email: string, position: number) {
     console.log(`Welcome email sent to ${email}:`, data);
   } catch (error) {
     console.error('Failed to send welcome email:', error);
+    console.error('Error details:', {
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : 'No stack trace',
+      timestamp: new Date().toISOString(),
+      recipient: email
+    });
     // Don't throw error - email failure shouldn't prevent waitlist signup
   }
 }
