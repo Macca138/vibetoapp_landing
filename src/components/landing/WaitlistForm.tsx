@@ -93,13 +93,26 @@ export default function WaitlistForm({ source = 'landing' }: WaitlistFormProps) 
           You&apos;re on the list!
         </m.h3>
         <m.p 
-          className="text-sm text-gray-300"
+          className="text-sm text-gray-300 mb-3"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
           We&apos;ll notify you when VibeToApp is ready for you to try.
         </m.p>
+        <m.div 
+          className="bg-purple-900/30 border border-purple-500/20 rounded-lg p-3 text-sm text-gray-300"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+        >
+          <p className="font-medium text-purple-300 mb-1">📧 Check your email!</p>
+          <p className="text-xs leading-relaxed">
+            Your confirmation email might be in your spam folder. 
+            <br />
+            Add <span className="font-mono text-purple-300">waitlist@vibetoapp.com</span> to your trusted senders.
+          </p>
+        </m.div>
       </m.div>
     );
   }
