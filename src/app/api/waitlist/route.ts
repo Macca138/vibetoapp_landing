@@ -91,7 +91,7 @@ async function sendWelcomeEmail(email: string, position: number) {
 
   try {
     // Add timeout and retry logic
-    const { data, error } = await Promise.race([
+    const result = await Promise.race([
       resend.emails.send({
         from: 'VibeToApp Waitlist <waitlist@vibetoapp.com>',
         to: [email],
@@ -149,6 +149,8 @@ async function sendWelcomeEmail(email: string, position: number) {
         setTimeout(() => reject(new Error('Email send timeout')), 10000)
       )
     ]);
+
+    const { data, error } = result as { data: any; error: any };
 
     if (error) {
       console.error('Failed to send welcome email:', error);
