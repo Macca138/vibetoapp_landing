@@ -97,6 +97,10 @@ export async function POST(request: Request) {
       if (error.message.includes('403') || error.message.includes('Forbidden')) {
         errorDetails += ' - Domain not verified or sender not authorized';
       }
+      
+      // Log the full error for debugging
+      console.error('Full error object:', error);
+      console.error('Error stack:', error.stack);
     }
     
     return NextResponse.json({
@@ -109,7 +113,7 @@ export async function POST(request: Request) {
         errorType,
         errorCode,
         timestamp: new Date().toISOString(),
-        senderEmail: 'waitlist@vibetoapp.com',
+        senderEmail: 'waitlist@test-r9084zvd5rmgw63d.mlsender.net',
         domainStatus: 'Check MailerSend dashboard for domain verification'
       }
     }, { status: 500 });
