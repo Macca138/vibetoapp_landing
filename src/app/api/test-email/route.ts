@@ -80,7 +80,7 @@ export async function POST(request: Request) {
     
     // Try to extract more detailed error information
     let errorDetails = 'Unknown error';
-    let errorCode = null;
+    const errorCode = null;
     let errorType = 'Unknown';
     
     if (error instanceof Error) {
