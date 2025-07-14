@@ -150,7 +150,7 @@ async function sendWelcomeEmail(email: string, position: number) {
       )
     ]);
 
-    const { data, error } = result as { data: any; error: any };
+    const { data, error } = result as { data: unknown; error: unknown };
 
     if (error) {
       console.error('Failed to send welcome email:', error);
