@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
-import { MailerSend, EmailParams, Sender, Recipient } from 'mailersend';
+import { Resend } from 'resend';
 
-// Initialize MailerSend
-const mailerSend = new MailerSend({
-  apiKey: process.env.MAILERSEND_API_KEY || '',
-});
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Create PostgreSQL connection with fallback configuration
 let pool: Pool | null = null;
@@ -86,21 +84,17 @@ if (!pool) {
 
 // Email sending function
 async function sendWelcomeEmail(email: string, position: number) {
-  if (!process.env.MAILERSEND_API_KEY) {
-    console.log('MailerSend API key not configured, skipping email');
+  if (!process.env.RESEND_API_KEY) {
+    console.log('Resend API key not configured, skipping email');
     return;
   }
 
   try {
-    const sentFrom = new Sender('waitlist@test-r9084zvd5rmgw63d.mlsender.net', 'VibeToApp Waitlist');
-    const recipients = [new Recipient(email, email)];
-
-    const emailParams = new EmailParams()
-      .setFrom(sentFrom)
-      .setTo(recipients)
-      .setReplyTo(sentFrom)
-      .setSubject('Welcome to the VibeToApp Waitlist! 🚀')
-      .setHtml(`
+    const { data, error } = await resend.emails.send({
+      from: 'VibeToApp Waitlist <waitlist@vibetoapp.com>',
+      to: [email],
+      subject: 'Welcome to the VibeToApp Waitlist! 🚀',
+      html: `
         <!DOCTYPE html>
         <html>
         <head>
@@ -133,8 +127,8 @@ async function sendWelcomeEmail(email: string, position: number) {
           </div>
         </body>
         </html>
-      `)
-      .setText(`
+      `,
+      text: `
         Welcome to VibeToApp!
         
         Thanks for joining the VibeToApp waitlist. You're position #${position} in line for early access!
@@ -147,10 +141,15 @@ async function sendWelcomeEmail(email: string, position: number) {
         Questions? Reply to this email or visit our website.
         
         — The VibeToApp Team
-      `);
+      `
+    });
 
-    await mailerSend.email.send(emailParams);
-    console.log(`Welcome email sent to ${email}`);
+    if (error) {
+      console.error('Failed to send welcome email:', error);
+      return;
+    }
+
+    console.log(`Welcome email sent to ${email}:`, data);
   } catch (error) {
     console.error('Failed to send welcome email:', error);
     // Don't throw error - email failure shouldn't prevent waitlist signup
