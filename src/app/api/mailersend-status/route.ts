@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { MailerSend } from 'mailersend';
 
 export async function GET() {
   try {
